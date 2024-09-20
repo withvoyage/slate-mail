@@ -1,4 +1,7 @@
-import { CSSProperties } from 'react';
+import {
+  CSSProperties,
+  HTMLProps,
+} from 'react';
 
 import {
   BoxSelect,
@@ -19,10 +22,10 @@ export type Node = {
   styles: CSSProperties;
 };
 
-export type PropsWithNode = {
+export interface PropsWithNode extends HTMLProps<HTMLDivElement> {
   node: Node;
   setNode: (node: Node) => void;
-};
+}
 
 export function dataNodeId(id: string) {
   return { "data-node-id": id };

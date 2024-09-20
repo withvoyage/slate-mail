@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -28,6 +29,7 @@ import {
 } from './components';
 import { Background } from './components/Background';
 import { Draggable } from './dnd';
+import { useOutlineElement } from './outline';
 
 const EditingContext = createContext<boolean>(false);
 export const useIsEditing = () => {
@@ -82,10 +84,15 @@ const DEFAULT_TREE: Node = {
 };
 
 export function App() {
+  const portalRef = useRef<HTMLDivElement | null>(null);
   const [tree, setTree] = useState<Node>(DEFAULT_TREE);
   const [html, setHtml] = useState<string>("");
   const [editing, setEditing] = useState<boolean>(true);
   const [activeDrag, setActiveDrag] = useState<Node | null>(null);
+
+  const outlineElement = useOutlineElement({
+    portal: portalRef.current,
+  });
 
   const getDragOverlayElement = useCallback(
     (tree: Node) => {
@@ -114,7 +121,7 @@ export function App() {
   const overlayElement = getDragOverlayElement(tree);
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-4">
+    <div className="w-screen h-screen flex flex-col gap-4" ref={portalRef}>
       <DndContext
         onDragStart={(e) => {
           const { active } = e;
@@ -238,7 +245,19 @@ export function App() {
 
           {editing ? (
             <ActiveDragContext.Provider value={activeDrag}>
-              <Background node={tree} setNode={setTree} />
+              <Background
+                node={tree}
+                setNode={setTree}
+                onClick={(e) => {
+                  console.log(e);
+                  const el = e.target as HTMLElement;
+                  const nodeId = el
+                    .closest("[data-node-id]")
+                    ?.getAttribute("data-node-id");
+                  if (!nodeId) return;
+                  outlineElement(nodeId, el);
+                }}
+              />
             </ActiveDragContext.Provider>
           ) : (
             <iframe srcDoc={html} className="w-full h-full" />

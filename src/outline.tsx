@@ -20,7 +20,6 @@ export const useOutlineElement = ({ portal }: UseOutlineElementProps) => {
   const { listeners, attributes } = useSortable({ id: lastOutlinedId || "" });
 
   useEffect(() => {
-    console.log("render");
     if (!portal) return;
     // Create the floating outline element
     const outline = document.createElement("div");
