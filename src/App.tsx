@@ -81,7 +81,7 @@ const DEFAULT_TREE: Node = {
   ],
 };
 
-function App() {
+export function App() {
   const [tree, setTree] = useState<Node>(DEFAULT_TREE);
   const [html, setHtml] = useState<string>("");
   const [editing, setEditing] = useState<boolean>(true);
@@ -248,5 +248,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
