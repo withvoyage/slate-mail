@@ -68,8 +68,6 @@ export const Liquid = Extension.create({
           );
           const isValidAfterContent = !afterContent?.endsWith("  ");
 
-          console.log("allow", isRootDepth, isValidAfterContent);
-
           return isRootDepth && isValidAfterContent;
         },
         command: ({ editor, props }: { editor: Editor; props: any }) => {
@@ -85,7 +83,6 @@ export const Liquid = Extension.create({
 
           const tr = state.tr.deleteRange(from, end);
           view.dispatch(tr);
-          console.log("command", props);
           editor.commands.setLiquid(props.name, `{{ ${props.id} }}`);
           view.focus();
         },
@@ -308,3 +305,5 @@ export const LiquidNode = Node.create({
     return ReactNodeViewRenderer(LiquidNodeView);
   },
 });
+
+export * from "./types";

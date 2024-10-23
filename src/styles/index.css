@@ -4,6 +4,10 @@
 @import "./partials/typography.css";
 @import "./partials/columns.css";
 
+[data-tippy-root] {
+  @apply !pointer-events-auto;
+}
+
 .ProseMirror {
   @apply caret-black bg-white border rounded-lg outline-0 p-8 z-0 mx-auto max-w-[640px];
 

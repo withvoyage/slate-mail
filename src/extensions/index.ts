@@ -29,3 +29,4 @@ export { ImageBlock } from "./ImageBlock";
 export { Column, Columns } from "./MultiColumn";
 export { emojiSuggestion } from "./EmojiSuggestion";
 export { Liquid } from "./Liquid";
+export type { Group, Variable } from "./Liquid";
