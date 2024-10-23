@@ -13,6 +13,7 @@ export interface UseSlateEmailProps {
   onCreate?: (editor: Editor) => void;
   onUpdate?: (editor: Editor) => void;
   liquidGroups?: Group[];
+  onImageUpload?: (file: File) => Promise<string>;
 }
 
 export const useSlateEmail = ({
@@ -20,6 +21,7 @@ export const useSlateEmail = ({
   onCreate,
   onUpdate,
   liquidGroups,
+  onImageUpload,
 }: UseSlateEmailProps) => {
   const ydoc = useMemo(() => new YDoc(), []);
 
@@ -38,7 +40,10 @@ export const useSlateEmail = ({
           ctx.editor.on("update", () => onUpdate(ctx.editor));
         }
       },
-      extensions: ExtensionKit(liquidGroups || []),
+      extensions: ExtensionKit({
+        liquidGroups: liquidGroups || [],
+        onImageUpload,
+      }),
       editorProps: {
         attributes: {
           autocomplete: "off",

@@ -1,32 +1,19 @@
-import {
-  DragEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { DragEvent, useCallback, useEffect, useRef, useState } from "react";
 
 export const useUploader = ({
   onUpload,
+  upload,
 }: {
   onUpload: (url: string) => void;
+  upload: (file: File) => Promise<string>;
 }) => {
   const [loading, setLoading] = useState(false);
 
   const uploadFile = useCallback(
     async (file: File) => {
       setLoading(true);
-
-      const FR = new FileReader();
-
-      FR.addEventListener("load", (e) => {
-        const result = e.target?.result;
-        if (typeof result === "string") {
-          onUpload(result);
-        }
-      });
-      FR.readAsDataURL(file);
-
+      const url = await upload(file);
+      onUpload(url);
       setLoading(false);
     },
     [onUpload]

@@ -1,31 +1,18 @@
-import {
-  ChangeEvent,
-  useCallback,
-} from 'react';
+import { ChangeEvent, useCallback } from "react";
 
-import {
-  Image,
-  Loader,
-  Upload,
-} from 'lucide-react';
-import {
-  Button,
-  cn,
-  Icon,
-} from 'slate-ui';
+import { Image, Loader, Upload } from "lucide-react";
+import { Button, cn, Icon } from "slate-ui";
 
-import {
-  useDropZone,
-  useFileUpload,
-  useUploader,
-} from './hooks';
+import { useDropZone, useFileUpload, useUploader } from "./hooks";
 
 export const ImageUploader = ({
   onUpload,
+  upload,
 }: {
   onUpload: (url: string) => void;
+  upload: (file: File) => Promise<string>;
 }) => {
-  const { loading, uploadFile } = useUploader({ onUpload });
+  const { loading, uploadFile } = useUploader({ onUpload, upload });
   const { handleUploadClick, ref } = useFileUpload();
   const { draggedInside, onDrop, onDragEnter, onDragLeave } = useDropZone({
     uploader: uploadFile,

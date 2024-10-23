@@ -33,7 +33,15 @@ import { ButtonBlock } from "./Button";
 import { LiquidNode } from "./Liquid";
 import { Group } from "./Liquid/types";
 
-export const ExtensionKit = (liquidGroups: Group[]) => [
+export interface ExtensionKitProps {
+  liquidGroups: Group[];
+  onImageUpload?: (file: File) => Promise<string>;
+}
+
+export const ExtensionKit = ({
+  liquidGroups,
+  onImageUpload,
+}: ExtensionKitProps) => [
   Document,
   Columns,
   Column,
@@ -65,7 +73,9 @@ export const ExtensionKit = (liquidGroups: Group[]) => [
   Highlight.configure({ multicolor: true }),
   Underline,
   ImageBlock,
-  ImageUpload,
+  ImageUpload.configure({
+    onImageUpload,
+  }),
   Emoji.configure({
     enableEmoticons: true,
     suggestion: emojiSuggestion,

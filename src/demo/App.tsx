@@ -83,6 +83,26 @@ export default function App() {
         title: "Company",
       },
     ],
+    onImageUpload: async (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          const blobUrl = reader.result; // This will be a base64-encoded data URL
+          if (typeof blobUrl !== "string") {
+            reject("Error reading file: Invalid data URL.");
+            return;
+          }
+          resolve(blobUrl);
+        };
+
+        reader.onerror = (error) => {
+          reject("Error reading file: " + error);
+        };
+
+        reader.readAsDataURL(file); // Converts the file into a base64 URL
+      });
+    },
     onCreate: (editor) => {
       const html = editor.getHTML();
       setHtml(html);
