@@ -1,0 +1,22 @@
+.ProseMirror {
+  [data-type="columns"] {
+    @apply w-full table table-fixed;
+  }
+
+  [data-type="column"] {
+    @apply rounded transition p-1;
+
+    &:hover {
+      @apply bg-muted;
+    }
+
+    &.is-empty {
+      @apply bg-muted;
+    }
+
+    &:has(.is-active),
+    &.has-focus {
+      @apply bg-muted;
+    }
+  }
+}

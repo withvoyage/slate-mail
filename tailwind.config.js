@@ -1,22 +1,16 @@
-import tailwindCssAnimate from 'tailwindcss-animate';
-import primaryTheme from 'tailwindcss/defaultTheme';
-import plugin from 'tailwindcss/plugin';
+import tailwindCssAnimate from "tailwindcss-animate";
+import primaryTheme from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
 
 export default {
   darkMode: ["class"],
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/demo/index.html",
+    "./src/**/*.{ts,tsx}",
     "./node_modules/slate-ui/dist/**/*.js",
   ],
+  safelist: ["ProseMirror"],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
       fontFamily: {
         sans: ["Inter", ...primaryTheme.fontFamily.sans],
@@ -111,9 +105,6 @@ export default {
           900: "var(--info-900)",
         },
       },
-      zIndex: {
-        100: "100",
-      },
 
       backgroundColor: ({ theme }) => ({
         primary: theme("colors.primary.500"),
@@ -151,31 +142,70 @@ export default {
       }),
 
       keyframes: {
-        overlayShow: {
-          from: { opacity: "0" },
-          to: { opacity: "1" },
-        },
         contentShow: {
           from: {
             opacity: "0",
-            transform: "translate(-50%, -48%) scale(0.96)",
+            transform: "translate(0, 5%) scale(0.96)",
           },
-          to: { opacity: "1", transform: "translate(-50%, -50%) scale(1)" },
+          to: { opacity: "1", transform: "translate(0, 0) scale(1)" },
         },
-        wiggle: {
-          "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" },
+        bump: {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "10%": {
+            transform: "scale(1.05)",
+          },
+          "50%": {
+            transform: "scale(1)",
+          },
+        },
+        spin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        spinCcw: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(-360deg)" },
+        },
+        slideDownAndFade: {
+          from: { opacity: "0", transform: "translateY(-2px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideLeftAndFade: {
+          from: { opacity: "0", transform: "translateX(2px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+        slideUpAndFade: {
+          from: { opacity: "0", transform: "translateY(2px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        slideRightAndFade: {
+          from: { opacity: "0", transform: "translateX(-2px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
         },
       },
       animation: {
-        overlayShow: "overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
-        contentShow: "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
-        wiggle: "wiggle 1s ease-in-out infinite",
+        contentShow: "contentShow 150ms ease-out",
+        bump: "bump 1s infinite",
+        spin: "spin 1s linear infinite",
+        spinCcw: "spinCcw 2s linear infinite",
+        slideDownAndFade:
+          "slideDownAndFade 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        slideLeftAndFade:
+          "slideLeftAndFade 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        slideUpAndFade: "slideUpAndFade 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        slideRightAndFade:
+          "slideRightAndFade 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+      transitionDelay: {
+        1500: "1500ms",
       },
     },
   },
   plugins: [
     tailwindCssAnimate,
+    require("@tailwindcss/typography"),
     plugin(function ({ addBase }) {
       addBase({
         h1: { fontSize: "2em" },
@@ -185,6 +215,9 @@ export default {
         h5: { fontSize: "0.83em" },
         h6: { fontSize: "0.67em" },
       });
+    }),
+    plugin(function ({ addVariant }) {
+      addVariant("child", "& > *");
     }),
   ],
 };
