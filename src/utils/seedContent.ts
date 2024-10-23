@@ -52,14 +52,7 @@ export const seedContent = {
         class: null,
         textAlign: "left",
       },
-      content: [
-        { type: "text", text: "Dear " },
-        {
-          type: "liquidNode",
-          attrs: { label: "First Name", liquid: "{{ fname }}" },
-        },
-        { type: "text", text: "," },
-      ],
+      content: [{ type: "text", text: "Dear reader," }],
     },
     {
       type: "paragraph",
