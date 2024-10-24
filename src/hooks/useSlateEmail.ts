@@ -1,6 +1,4 @@
-import { useMemo } from "react";
-
-import { Doc as YDoc } from "yjs";
+import { useEffect } from "react";
 
 import { ExtensionKit } from "@/extensions/extension-kit";
 import { Group } from "@/extensions/Liquid/types";
@@ -11,34 +9,27 @@ import { JSONContent, useEditor } from "@tiptap/react";
 export interface UseSlateEmailProps {
   defaultValue?: JSONContent;
   onCreate?: (editor: Editor) => void;
-  onUpdate?: (editor: Editor) => void;
   liquidGroups?: Group[];
   onImageUpload?: (file: File) => Promise<string>;
+  onUpdate?: (editor: Editor) => void;
 }
 
 export const useSlateEmail = ({
   defaultValue,
   onCreate,
-  onUpdate,
   liquidGroups,
   onImageUpload,
+  onUpdate,
 }: UseSlateEmailProps) => {
-  const ydoc = useMemo(() => new YDoc(), []);
-
   const editor = useEditor(
     {
       immediatelyRender: true,
       shouldRerenderOnTransaction: false,
       autofocus: true,
       onCreate: (ctx) => {
-        if (ctx.editor.isEmpty) {
-          ctx.editor.commands.setContent(defaultValue || seedContent);
-          ctx.editor.commands.focus("start", { scrollIntoView: true });
-          onCreate?.(ctx.editor);
-        }
-        if (onUpdate) {
-          ctx.editor.on("update", () => onUpdate(ctx.editor));
-        }
+        ctx.editor.commands.setContent(defaultValue || seedContent);
+        ctx.editor.commands.focus("start", { scrollIntoView: true });
+        onCreate?.(ctx.editor);
       },
       extensions: ExtensionKit({
         liquidGroups: liquidGroups || [],
@@ -53,8 +44,19 @@ export const useSlateEmail = ({
         },
       },
     },
-    [ydoc]
+    []
   );
+
+  useEffect(() => {
+    if (onUpdate) {
+      const fn = () => editor.isInitialized && onUpdate(editor);
+      editor.on("update", fn);
+
+      return () => {
+        editor.off("update", fn);
+      };
+    }
+  }, [onUpdate, editor]);
 
   return { editor };
 };

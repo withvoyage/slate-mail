@@ -106,6 +106,8 @@ export default function App() {
     onCreate: (editor) => {
       const html = editor.getHTML();
       setHtml(html);
+      const json = editor.getJSON();
+      setContent(json);
     },
     onUpdate: (editor) => {
       const html = editor.getHTML();
