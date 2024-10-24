@@ -1,5 +1,5 @@
 {
-  "name": "slatemail",
+  "name": "@withvoyage/slate-mail",
   "version": "0.0.19",
   "type": "module",
   "license": "MIT",
