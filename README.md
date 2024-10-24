@@ -8,7 +8,7 @@ A simple, notion-like email builder that can be embedded in React apps.
 
 - **Rich text editing**: SlateMail uses TipTap, a rich text editor that supports markdown, images, and more.
 - **Embeddable**: SlateMail can be embedded in any React app with simple ways to hook into controlled state.
-- **Customizable**: SlateMail is built on [Slate](), an open source, styleable component library.
+- **Customizable**: SlateMail is built on [Slate](https://github.com/withvoyage/slate-ui), an open source, styleable component library.
 
 ## Installation
 
